@@ -3,19 +3,19 @@ package hu.bme.mit.spaceship;
 /**
 * A simple spaceship with two proton torpedo stores and four lasers
 */
-public class GT4500 implements SpaceShip {
+public class GT4500 implements hu.bme.mit.spaceship.SpaceShip {
 
-  private TorpedoStore primaryTorpedoStore;
-  private TorpedoStore secondaryTorpedoStore;
+  private hu.bme.mit.spaceship.TorpedoStore primaryTorpedoStore;
+  private hu.bme.mit.spaceship.TorpedoStore secondaryTorpedoStore;
 
   private boolean wasPrimaryFiredLast = false;
 
   public GT4500() {
-    this.primaryTorpedoStore = new TorpedoStore(10);
-    this.secondaryTorpedoStore = new TorpedoStore(10);
+    this.primaryTorpedoStore = new hu.bme.mit.spaceship.TorpedoStore(10);
+    this.secondaryTorpedoStore = new hu.bme.mit.spaceship.TorpedoStore(10);
   }
 
-  public boolean fireLaser(FiringMode firingMode) {
+  public boolean fireLaser(hu.bme.mit.spaceship.FiringMode firingMode) {
     // TODO not implemented yet
     return false;
   }
@@ -34,7 +34,7 @@ public class GT4500 implements SpaceShip {
   * @return whether at least one torpedo was fired successfully
   */
   @Override
-  public boolean fireTorpedo(FiringMode firingMode) {
+  public boolean fireTorpedo(hu.bme.mit.spaceship.FiringMode firingMode) {
 
     boolean firingSuccess = false;
 
@@ -78,8 +78,16 @@ public class GT4500 implements SpaceShip {
 
       case ALL:
         // try to fire both of the torpedo stores
-        //TODO implement feature
-
+        boolean firingSuccessPrimary = false;
+        boolean firingSuccessSecondary = false;
+        if (! primaryTorpedoStore.isEmpty()) {
+          firingSuccessPrimary = primaryTorpedoStore.fire(1);
+        }
+        if (! secondaryTorpedoStore.isEmpty()) {
+          firingSuccessSecondary = secondaryTorpedoStore.fire(1);
+        }
+        // success when at least one torpedo was successful
+        firingSuccess = firingSuccessPrimary || firingSuccessSecondary;
         break;
     }
 
