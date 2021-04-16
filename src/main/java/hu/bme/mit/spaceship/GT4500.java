@@ -41,7 +41,7 @@ public class GT4500 implements hu.bme.mit.spaceship.SpaceShip {
     switch (firingMode) {
       case SINGLE:
         if (wasPrimaryFiredLast) {
-          // try to fire the secondary first - this is some text
+          // try to fire the secondary first - this is some text - this is a cooler comment yes thats true
           if (! secondaryTorpedoStore.isEmpty()) {
             firingSuccess = secondaryTorpedoStore.fire(1);
             wasPrimaryFiredLast = false;
