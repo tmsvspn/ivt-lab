@@ -28,8 +28,8 @@ public class GT4500Test {
     ship.fireTorpedo(FiringMode.SINGLE);
 
     // Assert
-    verify(mockTS1, atMost(1)).fire(1);
-    verify(mockTS2, atMost(1)).fire(1);
+    verify(mockTS1, times(1)).fire(anyInt());
+    verify(mockTS2, never()).fire(anyInt());
   }
 
   @Test
@@ -42,8 +42,8 @@ public class GT4500Test {
     ship.fireTorpedo(FiringMode.ALL);
 
     // Assert
-    verify(mockTS1, times(1)).fire(1);
-    verify(mockTS2, times(1)).fire(1);
+    verify(mockTS1, times(1)).fire(anyInt());
+    verify(mockTS2, times(1)).fire(anyInt());
   }
 
 }
