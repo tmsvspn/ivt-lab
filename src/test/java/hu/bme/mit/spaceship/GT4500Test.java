@@ -1,7 +1,9 @@
 package hu.bme.mit.spaceship;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 
 import static org.mockito.Mockito.*;
 
@@ -112,6 +114,87 @@ public class GT4500Test {
 
     // Act
     ship.fireTorpedo(FiringMode.SINGLE);
+
+    // Assert
+    verify(mockTS1, never()).fire(anyInt());
+    verify(mockTS2, never()).fire(anyInt());
+  }
+
+  @Test
+  public void fireTorpedo_Single_Empty_Unwanted() {
+    // Arrange
+    when(mockTS1.fire(1)).thenReturn(true);
+    when(mockTS2.isEmpty()).thenReturn(true);
+    ship.fireTorpedo(FiringMode.SINGLE);
+
+    // Act
+    ship.fireTorpedo(FiringMode.SINGLE);
+
+    // Assert
+    verify(mockTS1, times(2)).fire(anyInt());
+  }
+
+  @Test
+  public void fireTorpedo_Single_WrongState() {
+    // Arrange
+
+    // Act
+
+    // Assert
+    Assertions.assertDoesNotThrow(() -> ship.fireTorpedo(FiringMode.WRONG));
+  }
+
+  @Test
+  public void fireTorpedo_Single_Empty_Becomes_Empty() {
+    // Arrange
+    when(mockTS1.fire(1)).thenReturn(true);
+    when(mockTS2.isEmpty()).thenReturn(true);
+    ship.fireTorpedo(FiringMode.SINGLE);
+    when(mockTS1.isEmpty()).thenReturn(true);
+
+    // Act
+    ship.fireTorpedo(FiringMode.SINGLE);
+
+    // Assert
+    verify(mockTS1, times(1)).fire(anyInt());
+  }
+
+  @Test
+  public void fireTorpedo_All_FirstEmpty(){
+    // Arrange
+    when(mockTS2.fire(1)).thenReturn(true);
+    when(mockTS1.isEmpty()).thenReturn(true);
+
+    // Act
+    ship.fireTorpedo(FiringMode.ALL);
+
+    // Assert
+    verify(mockTS1, never()).fire(anyInt());
+    verify(mockTS2, times(1)).fire(anyInt());
+  }
+
+  @Test
+  public void fireTorpedo_All_SecondEmpty(){
+    // Arrange
+    when(mockTS1.fire(1)).thenReturn(true);
+    when(mockTS2.isEmpty()).thenReturn(true);
+
+    // Act
+    ship.fireTorpedo(FiringMode.ALL);
+
+    // Assert
+    verify(mockTS1, times(1)).fire(anyInt());
+    verify(mockTS2, never()).fire(anyInt());
+  }
+
+  @Test
+  public void fireTorpedo_All_BothEmpty(){
+    // Arrange
+    when(mockTS1.isEmpty()).thenReturn(true);
+    when(mockTS2.isEmpty()).thenReturn(true);
+
+    // Act
+    ship.fireTorpedo(FiringMode.ALL);
 
     // Assert
     verify(mockTS1, never()).fire(anyInt());
